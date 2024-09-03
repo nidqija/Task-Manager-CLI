@@ -2,8 +2,11 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	"os"
+	"strconv"
 	"time"
+
+	"github.com/aquasecurity/table"
 )
 
 // Todo represents a single task
@@ -22,8 +25,8 @@ func (todos *Todos) Add(title string) {
 	todo := Todo{
 		Title:       title,
 		Completed:   false,
-		CompletedAt: nil,
 		CreatedAt:   time.Now(),
+		CompletedAt: nil,
 	}
 	*todos = append(*todos, todo)
 }
@@ -31,9 +34,7 @@ func (todos *Todos) Add(title string) {
 // ValidateIndex checks if the given index is valid
 func (todos *Todos) ValidateIndex(index int) error {
 	if index < 0 || index >= len(*todos) {
-		err := errors.New("Invalid Index")
-		fmt.Println(err)
-		return err
+		return errors.New("Invalid Index")
 	}
 	return nil
 }
@@ -45,4 +46,55 @@ func (todos *Todos) Delete(index int) error {
 	}
 	*todos = append((*todos)[:index], (*todos)[index+1:]...)
 	return nil
+}
+
+// ToggleCompletion toggles the completion status of a Todo item by index
+func (todos *Todos) ToggleCompletion(index int) error {
+	if err := todos.ValidateIndex(index); err != nil {
+		return err
+	}
+
+	todo := &(*todos)[index]
+	if !todo.Completed {
+		completionTime := time.Now()
+		todo.CompletedAt = &completionTime
+	} else {
+		todo.CompletedAt = nil
+	}
+	todo.Completed = !todo.Completed
+
+	return nil
+}
+
+// Edit updates the title of a Todo by index
+func (todos *Todos) Edit(index int, title string) error {
+	if err := todos.ValidateIndex(index); err != nil {
+		return err
+	}
+
+	(*todos)[index].Title = title
+	return nil
+}
+
+// Print displays the list of Todos in a table format
+func (todos *Todos) Print() {
+	tbl := table.New(os.Stdout)
+	tbl.SetRowLines(false)
+	tbl.SetHeaders("#", "Title", "Completed", "Created At", "Completed At")
+
+	for index, todo := range *todos {
+		completed := "❌"
+		completedAt := ""
+
+		if todo.Completed {
+			completed = "✅"
+			if todo.CompletedAt != nil {
+				completedAt = todo.CompletedAt.Format(time.RFC1123)
+			}
+		}
+
+		tbl.AddRow(strconv.Itoa(index), todo.Title, completed, todo.CreatedAt.Format(time.RFC1123), completedAt)
+	}
+
+	tbl.Render()
 }
