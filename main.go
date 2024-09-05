@@ -1,10 +1,6 @@
 package main
 
 
-import(
-"fmt"
-
-)
 
 
 func main() {
@@ -12,10 +8,8 @@ func main() {
 	todos := Todos{}
 	storage := NewStorage[Todos]("todos.json")
 	storage.Load(&todos)
-	todos.Add("Buy Milk")
-	todos.Add("Complete Golang Project")
-	todos.Print()
-	fmt.Println()
+	cmdFlags := NewCmdFlags()
+	cmdFlags.Execute(&todos)
 	storage.Save(todos)
 }
 
