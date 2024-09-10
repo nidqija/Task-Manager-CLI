@@ -1,20 +1,14 @@
 [
   {
-    "Title": "Complete Golang Project",
-    "Completed": false,
-    "CreatedAt": "2024-09-04T00:14:50.9317327+08:00",
-    "CompletedAt": null
+    "Title": "do my homework",
+    "Completed": true,
+    "CreatedAt": "2024-09-10T21:18:05.0218403+08:00",
+    "CompletedAt": "2024-09-10T21:18:28.8611945+08:00"
   },
   {
-    "Title": "Buy Milk",
-    "Completed": false,
-    "CreatedAt": "2024-09-04T00:15:36.6301936+08:00",
-    "CompletedAt": null
-  },
-  {
-    "Title": "Do 5 questions of discrete maths",
-    "Completed": false,
-    "CreatedAt": "2024-09-04T00:15:36.6301936+08:00",
-    "CompletedAt": null
+    "Title": "running 5km",
+    "Completed": true,
+    "CreatedAt": "2024-09-10T21:24:38.9535395+08:00",
+    "CompletedAt": "2024-09-10T21:24:48.7539214+08:00"
   }
 ]
